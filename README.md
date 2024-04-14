@@ -59,9 +59,9 @@ Initializing the library, creating a level, and finding a path:
 
 ```js
 // ES6
-import { Pathfinding } from 'three-pathfinding';
+import { Pathfinding } from '@pickledeggs123/three-pathfinding';
 // CommonJS
-const { Pathfinding } = require('three-pathfinding');
+const { Pathfinding } = require('@pickledeggs123/three-pathfinding');
 // UMD
 const Pathfinding = window.threePathfinding.Pathfinding;
 

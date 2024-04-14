@@ -24,9 +24,15 @@ class Utils {
   //+ Jonas Raoni Soares Silva
   //@ http://jsfromhell.com/math/is-point-in-poly [rev. #0]
   static isPointInPoly (poly, pt) {
-    for (var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
-      ((poly[i].z <= pt.z && pt.z < poly[j].z) || (poly[j].z <= pt.z && pt.z < poly[i].z)) && (pt.x < (poly[j].x - poly[i].x) * (pt.z - poly[i].z) / (poly[j].z - poly[i].z) + poly[i].x) && (c = !c);
-    return c;
+    const dotArray = [];
+    for (let i = 0; i < poly.length; i++) {
+      const a = poly[i];
+      const b = poly[(i + 1) % poly.length];
+      const cross = new THREE.Vector3().crossVectors(a, b);
+      const dot = cross.dot(pt);
+      dotArray.push(dotArray);
+    }
+    return dotArray.every(dot => dot >= 0) || dotArray.every(dot => dot <= 0);
   }
 
   static isVectorInPolygon (vector, polygon, vertices) {
@@ -40,12 +46,12 @@ class Utils {
     var polygonVertices = [];
 
     polygon.vertexIds.forEach((vId) => {
-      lowestPoint = Math.min(vertices[vId].y, lowestPoint);
-      highestPoint = Math.max(vertices[vId].y, highestPoint);
+      lowestPoint = Math.min(vertices[vId].length(), lowestPoint);
+      highestPoint = Math.max(vertices[vId].length(), highestPoint);
       polygonVertices.push(vertices[vId]);
     });
 
-    if (vector.y < highestPoint + 0.5 && vector.y > lowestPoint - 0.5 &&
+    if (vector.length() < highestPoint + 0.5 && vector.length() > lowestPoint - 0.5 &&
       this.isPointInPoly(polygonVertices, vector)) {
       return true;
     }

@@ -3,7 +3,7 @@ import { resolve } from 'path';
 export default {
 	root: 'demo',
 	publicDir: './assets',
-	resolve: { alias: { 'three-pathfinding': '../' } },
+	resolve: { alias: { '@pickledeggs123/three-pathfinding': '../' } },
 	build: {
 		rollupOptions: {
 			input: {
