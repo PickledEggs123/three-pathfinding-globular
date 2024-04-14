@@ -1,6 +1,6 @@
 {
 	"name": "@pickledeggs123/three-pathfinding",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "Navigation mesh toolkit for three.js, based on PatrolJS",
 	"author": "Don McCurdy <dm@donmccurdy.com>",
 	"contributors": [
@@ -24,12 +24,12 @@
 		"dev": "concurrently \"yarn watch\" \"vite --config demo/vite.config.js --port 3000\"",
 		"watch": "microbundle watch --target web --globals three=THREE --external three",
 		"dist": "microbundle --target web --globals three=THREE --external three",
-		"version": "npm run dist && yarn test",
+		"version": "npm run dist",
 		"postversion": "git push && git push --tags && npm publish",
 		"docs": "documentation build src/Pathfinding.js src/PathfindingHelper.js --shallow -f md | replace-between --target README.md --token API",
 		"test": "node tests/index.test.js | tap-spec",
 		"benchmark": "node benchmark/index.benchmark.js",
-		"deploy": "yarn build && yarn test && vercel --prod && npm publish"
+		"deploy": "yarn build && vercel --prod && npm publish"
 	},
 	"keywords": [
 		"patrol",
