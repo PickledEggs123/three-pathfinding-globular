@@ -29,8 +29,8 @@ class Utils {
       const a = poly[i];
       const b = poly[(i + 1) % poly.length];
       const cross = new THREE.Vector3().crossVectors(a, b);
-      const dot = cross.dot(pt);
-      dotArray.push(dotArray);
+      const dot = cross.clone().dot(pt.clone());
+      dotArray.push(dot);
     }
     return dotArray.every(dot => dot >= 0) || dotArray.every(dot => dot <= 0);
   }
