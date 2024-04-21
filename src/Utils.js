@@ -59,11 +59,19 @@ class Utils {
   }
 
   static triarea2 (a, b, c) {
+    /*
+     * Determinant
+     * |  x  y  z |
+     * | ax ay az |
+     * | bx by bz |
+     */
     var ax = b.x - a.x;
+    var ay = b.y - a.y;
     var az = b.z - a.z;
     var bx = c.x - a.x;
+    var by = c.y - a.y;
     var bz = c.z - a.z;
-    return bx * az - ax * bz;
+    return ay * bz + az * bx + ax * by - ax * bz - ay * bx - az * by;
   }
 
   static vequal (a, b) {
