@@ -65,12 +65,32 @@ class Utils {
      * | ax ay az |
      * | bx by bz |
      */
+    // make two vectors for determinant
     var ax = b.x - a.x;
     var ay = b.y - a.y;
     var az = b.z - a.z;
     var bx = c.x - a.x;
     var by = c.y - a.y;
     var bz = c.z - a.z;
+
+    // make basis matrix for sphere
+    var aVec = new THREE.Vector3().set(ax, ay, az);
+    var bVec = new THREE.Vector3().set(bx, by, az);
+    var basisY = a.clone().normalize();
+    var basisZ = aVec.clone().normalize();
+    var basisX = new THREE.Vector3().crossVectors(basisZ, basisY);
+    var basis = new THREE.Matrix4().makeBasis(basisX, basisY, basisZ);
+
+    // apply basis matrix
+    aVec = aVec.applyMatrix4(basis);
+    bVec = bVec.applyMatrix4(basis);
+    ax = aVec.x;
+    ay = aVec.y;
+    az = aVec.z;
+    bx = bVec.x;
+    by = bVec.y;
+    bz = bVec.z;
+
     return ay * bz + az * bx + ax * by - ax * bz - ay * bx - az * by;
   }
 
