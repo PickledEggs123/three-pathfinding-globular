@@ -78,7 +78,7 @@ class Utils {
     var bVec = new THREE.Vector3().set(bx, by, az);
     var basisY = a.clone().normalize();
     var basisZ = aVec.clone().normalize();
-    var basisX = new THREE.Vector3().crossVectors(basisZ, basisY);
+    var basisX = new THREE.Vector3().crossVectors(basisY, basisZ);
     var basis = new THREE.Matrix4().makeBasis(basisX, basisY, basisZ);
 
     // apply basis matrix
