@@ -79,7 +79,7 @@ class Utils {
     var basisY = a.clone().normalize();
     var basisZ = aVec.clone().normalize();
     var basisX = new THREE.Vector3().crossVectors(basisY, basisZ);
-    var basis = new THREE.Matrix4().makeBasis(basisX, basisY, basisZ);
+    var basis = new THREE.Matrix4().makeBasis(basisX, basisY, basisZ).invert();
 
     // apply basis matrix
     aVec = aVec.applyMatrix4(basis);
