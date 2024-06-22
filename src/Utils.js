@@ -74,8 +74,8 @@ class Utils {
     var bz = c.z - a.z;
 
     // make basis matrix for sphere
-    var aVec = new THREE.Vector3().set(ax, ay, az);
-    var bVec = new THREE.Vector3().set(bx, by, az);
+    var aVec = new THREE.Vector3().set(ax, ay, az).normalize();
+    var bVec = new THREE.Vector3().set(bx, by, az).normalize();
     var basisY = a.clone().normalize();
     var basisZ = aVec.clone().normalize();
     var basisX = new THREE.Vector3().crossVectors(basisY, basisZ);
@@ -91,7 +91,11 @@ class Utils {
     by = bVec.y;
     bz = bVec.z;
 
-    return ay * bz + az * bx + ax * by - ax * bz - ay * bx - az * by;
+    let det = ay * bz + az * bx + ax * by - ax * bz - ay * bx - az * by;
+    if (aVec.dot(bVec) < 0) {
+      det += Math.sign(det);
+    }
+    return det;
   }
 
   static vequal (a, b) {
