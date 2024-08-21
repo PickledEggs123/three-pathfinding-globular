@@ -120,7 +120,7 @@ class Channel {
         const n2 = new THREE.Vector3().crossVectors(d2.clone(), n.clone());
         const top = (p2.clone().sub(p1.clone())).dot(n2);
         const bottom = d1.dot(n2);
-        if (bottom === 0) {
+        if (Math.abs(bottom) < 0.001 || prev.distanceTo(next) < 0.01) {
           pts.splice(i, 1, null);
         } else {
           const c1 = p1.clone().add(d1.clone().multiplyScalar(top / bottom));
