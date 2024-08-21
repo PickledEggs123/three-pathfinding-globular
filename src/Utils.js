@@ -75,7 +75,7 @@ class Utils {
 
     // make basis matrix for sphere
     var aVec = new THREE.Vector3().set(ax, ay, az).normalize();
-    var bVec = new THREE.Vector3().set(bx, by, az).normalize();
+    var bVec = new THREE.Vector3().set(bx, by, bz).normalize();
     var basisY = aVec.clone().normalize();
     var basisZ = a.clone().normalize();
     var basisX = new THREE.Vector3().crossVectors(basisY, basisZ);
