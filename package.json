@@ -1,6 +1,6 @@
 {
 	"name": "@pickledeggs123/three-pathfinding",
-	"version": "1.2.13",
+	"version": "1.2.14",
 	"description": "Navigation mesh toolkit for three.js, based on PatrolJS",
 	"author": "Don McCurdy <dm@donmccurdy.com>",
 	"contributors": [
