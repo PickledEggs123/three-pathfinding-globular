@@ -92,6 +92,9 @@ class Utils {
     bz = bVec.z;
 
     let det = ay * bz + az * bx + ax * by - ax * bz - ay * bx - az * by;
+    if (isNaN(det)) {
+      return 0;
+    }
     if (aVec.dot(bVec) < 0) {
       det += Math.sign(det);
     }
