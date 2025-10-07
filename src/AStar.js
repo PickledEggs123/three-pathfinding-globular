@@ -86,7 +86,7 @@ class AStar {
           neighbour.visited = true;
           neighbour.parent = currentNode;
           if (!neighbour.centroid || !end.centroid) throw new Error('Unexpected state');
-          neighbour.h = neighbour.h || this.heuristic(neighbour.centroid, end.centroid);
+          neighbour.h = neighbour.h || this.heuristic(neighbour.centroid, end.centroid, currentNode.centroid);
           neighbour.g = gScore;
           neighbour.f = neighbour.g + neighbour.h;
 
@@ -105,8 +105,12 @@ class AStar {
     return [];
   }
 
-  static heuristic (pos1, pos2) {
-    return Utils.distanceToSquared(pos1, pos2);
+  static heuristic (pos1, pos2, pos3) {
+    const neighbourVector = pos1.sub(pos2);
+    const currentVector = pos3.sub(pos2);
+    const dotProduct = neighbourVector.normalize().dot(currentVector.normalize());
+    return Utils.distanceToSquared(pos1, pos2) * (-dotProduct + 1);
+    //return Utils.distanceToSquared(pos1, pos2);
   }
 
   static neighbours (graph, node) {

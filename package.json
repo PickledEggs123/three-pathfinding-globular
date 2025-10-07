@@ -65,6 +65,5 @@
 		"LICENSE",
 		"package.json",
 		"package-lock.json"
-	],
-	"dependencies": {}
+	]
 }
