@@ -109,7 +109,7 @@ class AStar {
     const neighbourVector = pos1.sub(pos2);
     const currentVector = pos3.sub(pos2);
     const dotProduct = neighbourVector.normalize().dot(currentVector.normalize());
-    return Utils.distanceToSquared(pos1, pos2) * (-dotProduct + 1);
+    return Math.sqrt(Utils.distanceToSquared(pos1, pos2)) * 0.1 + (-dotProduct + 1);
     //return Utils.distanceToSquared(pos1, pos2);
   }
 
