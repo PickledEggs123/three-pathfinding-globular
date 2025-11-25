@@ -162,7 +162,7 @@ Pathfinding.prototype.getGroup = (function() {
 		if (!this.zones[zoneID]) return null;
 
 		let closestNodeGroup = null;
-		let distance = Math.pow(50, 2);
+		let distance = Math.pow(150, 2);
 		const zone = this.zones[zoneID];
 
 		for (let i = 0; i < zone.groups.length; i++) {
