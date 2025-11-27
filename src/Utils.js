@@ -3,8 +3,9 @@ import { BufferAttribute, BufferGeometry } from 'three';
 class Utils {
 
   static roundNumber (value, decimals) {
-    const factor = Math.pow(10, decimals);
-    return Math.round(value * factor) / factor;
+    return value;
+    // const factor = Math.pow(10, decimals);
+    // return Math.round(value * factor) / factor;
   }
 
   static sample (list) {
