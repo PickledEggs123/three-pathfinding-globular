@@ -106,9 +106,9 @@ class AStar {
   }
 
   static heuristic (pos1, pos2, pos3) {
-    const neighbourVector = pos1.sub(pos2);
-    const currentVector = pos3.sub(pos2);
-    const dotProduct = neighbourVector.normalize().dot(currentVector.normalize());
+    const neighbourVector = pos1.clone().sub(pos2.clone());
+    const currentVector = pos3.clone().sub(pos2.clone());
+    const dotProduct = neighbourVector.clone().normalize().dot(currentVector.clone().normalize());
     return Math.sqrt(Utils.distanceToSquared(pos1, pos2)) * 0.1 + (-dotProduct + 1);
     //return Utils.distanceToSquared(pos1, pos2);
   }
