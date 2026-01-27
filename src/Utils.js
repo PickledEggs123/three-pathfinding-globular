@@ -177,7 +177,7 @@ class Utils {
 
     const result = new BufferGeometry();
     result.setAttribute( 'position', positionAttribute );
-    result.setIndex(new BufferAttribute(new Uint32Array(newIndices), 3));
+    result.setIndex(new BufferAttribute(new Uint32Array(newIndices), 1));
 
     return result;
 
