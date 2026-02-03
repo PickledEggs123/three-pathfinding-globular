@@ -35,7 +35,7 @@ class AStar {
     });
   }
 
-  static search (graph, start, end) {
+  static search (graph, start, end, vertices) {
     this.init(graph);
     //heuristic = heuristic || astar.manhattan;
 
@@ -86,7 +86,7 @@ class AStar {
           neighbour.visited = true;
           neighbour.parent = currentNode;
           if (!neighbour.centroid || !end.centroid) throw new Error('Unexpected state');
-          neighbour.h = neighbour.h || this.heuristic(neighbour.centroid, end.centroid, currentNode.centroid);
+          neighbour.h = neighbour.h || this.heuristic(neighbour, end.centroid, currentNode.centroid, vertices);
           neighbour.g = gScore;
           neighbour.f = neighbour.g + neighbour.h;
 
@@ -105,11 +105,24 @@ class AStar {
     return [];
   }
 
-  static heuristic (pos1, pos2, pos3) {
-    const neighbourVector = pos1.clone().sub(pos2.clone());
-    const currentVector = pos3.clone().sub(pos2.clone());
-    const dotProduct = neighbourVector.clone().normalize().dot(currentVector.clone().normalize());
-    return Math.sqrt(Utils.distanceToSquared(pos1, pos2)) * 0.1 + (-dotProduct + 1);
+  static heuristic (neighbor, endPos, currentPos, vertices) {
+    const neighbourVector = neighbor.centroid.clone().sub(endPos.clone());
+    const currentVector = currentPos.clone().sub(endPos.clone());
+    const v = neighbor.vertexIds.map(vid => vertices[vid].clone());
+
+    const edges = v.map((edge, index, arr) => [edge, arr[(index + 1) % arr.length]]);
+    const line = currentPos.clone().normalize().cross(endPos.clone().normalize());
+    const intersects = edges.map(([a, b]) => {
+      const c = a.clone().normalize().cross(b.clone().normalize());
+      const cIntersect = c.clone().cross(line.clone());
+      const intersect = cIntersect.distanceTo(a) < cIntersect.clone().negate().distanceTo(a) ? cIntersect.clone() : cIntersect.clone().negate();
+      const aa = a.clone().normalize();
+      const bb = b.clone().normalize();
+      return new THREE.Quaternion().setFromUnitVectors(aa, intersect).multiply(new THREE.Quaternion().setFromUnitVectors(intersect, bb)).angleTo(new THREE.Quaternion().setFromUnitVectors(aa, bb)) < 0.0001;
+    });
+    const hasIntersect = intersects.some(x => x);
+
+    return Math.sqrt(Utils.distanceToSquared(neighbor.centroid, endPos)) + (!hasIntersect ? 1000 : 0);
     //return Utils.distanceToSquared(pos1, pos2);
   }
 
