@@ -118,7 +118,7 @@ class AStar {
       const intersect = cIntersect.distanceTo(a) < cIntersect.clone().negate().distanceTo(a) ? cIntersect.clone() : cIntersect.clone().negate();
       const aa = a.clone().normalize();
       const bb = b.clone().normalize();
-      return new THREE.Quaternion().setFromUnitVectors(aa, intersect).multiply(new THREE.Quaternion().setFromUnitVectors(intersect, bb)).angleTo(new THREE.Quaternion().setFromUnitVectors(aa, bb)) < 0.0001;
+      return new THREE.Quaternion().setFromUnitVectors(aa, intersect).multiply(new THREE.Quaternion().setFromUnitVectors(intersect, bb)).angleTo(new THREE.Quaternion().setFromUnitVectors(aa, bb)) < Math.PI / 100;
     });
     const hasIntersect = intersects.some(x => x);
 
