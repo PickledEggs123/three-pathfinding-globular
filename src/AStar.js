@@ -1,5 +1,5 @@
-import { BinaryHeap } from './BinaryHeap';
-import { Utils } from './Utils.js';
+import {BinaryHeap} from './BinaryHeap';
+import {Utils} from './Utils.js';
 
 class AStar {
   static init (graph) {
@@ -106,19 +106,24 @@ class AStar {
   }
 
   static heuristic (neighbor, endPos, currentPos, vertices) {
-    const neighbourVector = neighbor.centroid.clone().sub(endPos.clone());
-    const currentVector = currentPos.clone().sub(endPos.clone());
+    // copy data from graph
+    const center = neighbor.centroid.clone();
+    const centerQuat = new THREE.Quaternion().setFromUnitVectors(center.clone().normalize(), new THREE.Vector3(0, 0, 1));
     const v = neighbor.vertexIds.map(vid => vertices[vid].clone());
 
+    // move all data into north pole
+    center.applyQuaternion(centerQuat);
+    v.forEach(vv => vv.applyQuaternion(centerQuat));
+    endPos = endPos.clone().applyQuaternion(centerQuat);
+    currentPos = currentPos.clone().applyQuaternion(centerQuat);
+
     const edges = v.map((edge, index, arr) => [edge, arr[(index + 1) % arr.length]]);
-    const line = currentPos.clone().normalize().cross(endPos.clone().normalize());
+    const line = new THREE.Line3(currentPos, endPos);
     const intersects = edges.map(([a, b]) => {
-      const c = a.clone().normalize().cross(b.clone().normalize());
-      const cIntersect = c.clone().cross(line.clone());
-      const intersect = cIntersect.distanceTo(a) < cIntersect.clone().negate().distanceTo(a) ? cIntersect.clone() : cIntersect.clone().negate();
-      const aa = a.clone().normalize();
-      const bb = b.clone().normalize();
-      return new THREE.Quaternion().setFromUnitVectors(aa, intersect).multiply(new THREE.Quaternion().setFromUnitVectors(intersect, bb)).angleTo(new THREE.Quaternion().setFromUnitVectors(aa, bb)) < Math.PI / 100;
+      const dLine = new THREE.Line3(a, b);
+      const t1 = dLine.closestPointToPointParameter(endPos.clone(), false);
+      const t2 = line.closestPointToPointParameter(dLine.getCenter(new THREE.Vector3()), false);
+      return t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1;
     });
     const hasIntersect = intersects.some(x => x);
 
