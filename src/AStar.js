@@ -108,14 +108,7 @@ class AStar {
   static heuristic (neighbor, endPos, currentPos, vertices) {
     // copy data from graph
     const center = neighbor.centroid.clone();
-    const centerQuat = new THREE.Quaternion().setFromUnitVectors(center.clone().normalize(), new THREE.Vector3(0, 0, 1));
     const v = neighbor.vertexIds.map(vid => vertices[vid].clone());
-
-    // move all data into north pole
-    center.applyQuaternion(centerQuat);
-    v.forEach(vv => vv.applyQuaternion(centerQuat));
-    endPos = endPos.clone().applyQuaternion(centerQuat);
-    currentPos = currentPos.clone().applyQuaternion(centerQuat);
 
     const edges = v.map((edge, index, arr) => [edge, arr[(index + 1) % arr.length]]);
     const line = new THREE.Line3(currentPos, endPos);
@@ -125,7 +118,7 @@ class AStar {
       const t2 = line.closestPointToPointParameter(dLine.getCenter(new THREE.Vector3()), false);
       return t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1;
     });
-    const hasIntersect = intersects.some(x => x);
+    const hasIntersect = intersects.some(x => x) && !neighbor.visited;
 
     return Math.sqrt(Utils.distanceToSquared(neighbor.centroid, endPos)) + (!hasIntersect ? 1000 : 0);
     //return Utils.distanceToSquared(pos1, pos2);
