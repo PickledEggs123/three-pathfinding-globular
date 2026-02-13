@@ -120,7 +120,7 @@ class AStar {
     });
     const hasIntersect = intersects.some(x => x) && !neighbor.visited;
 
-    return Math.sqrt(Utils.distanceToSquared(neighbor.centroid, endPos)) + (!hasIntersect ? 1000 : 0);
+    return Math.sqrt(Utils.distanceToSquared(neighbor.centroid, endPos)) + (!hasIntersect ? 3 : 0);
     //return Utils.distanceToSquared(pos1, pos2);
   }
 
