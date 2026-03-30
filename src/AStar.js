@@ -106,22 +106,22 @@ class AStar {
   }
 
   static heuristic (neighbor, endPos, currentPos, vertices) {
-    // copy data from graph
-    const center = neighbor.centroid.clone();
-    const v = neighbor.vertexIds.map(vid => vertices[vid].clone());
-
-    const edges = v.map((edge, index, arr) => [edge, arr[(index + 1) % arr.length]]);
-    const line = new THREE.Line3(currentPos, endPos);
-    const intersects = edges.map(([a, b]) => {
-      const dLine = new THREE.Line3(a, b);
-      const t1 = dLine.closestPointToPointParameter(endPos.clone(), false);
-      const t2 = line.closestPointToPointParameter(dLine.getCenter(new THREE.Vector3()), false);
-      return t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1;
-    });
-    const hasIntersect = intersects.some(x => x) && !neighbor.visited;
-
-    return Math.sqrt(Utils.distanceToSquared(neighbor.centroid, endPos)) + (!hasIntersect ? 3 : 0);
-    //return Utils.distanceToSquared(pos1, pos2);
+    // // copy data from graph
+    // const center = neighbor.centroid.clone();
+    // const v = neighbor.vertexIds.map(vid => vertices[vid].clone());
+    //
+    // const edges = v.map((edge, index, arr) => [edge, arr[(index + 1) % arr.length]]);
+    // const line = new THREE.Line3(currentPos, endPos);
+    // const intersects = edges.map(([a, b]) => {
+    //   const dLine = new THREE.Line3(a, b);
+    //   const t1 = dLine.closestPointToPointParameter(endPos.clone(), false);
+    //   const t2 = line.closestPointToPointParameter(dLine.getCenter(new THREE.Vector3()), false);
+    //   return t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1;
+    // });
+    // const hasIntersect = intersects.some(x => x) && !neighbor.visited;
+    //
+    // return Math.sqrt(Utils.distanceToSquared(neighbor.centroid, endPos)) + (!hasIntersect ? 3 : 0);
+    return Math.sqrt(Utils.distanceToSquared(neighbor.centroid, endPos));
   }
 
   static neighbours (graph, node) {
